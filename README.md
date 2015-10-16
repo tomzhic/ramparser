@@ -1,8 +1,10 @@
 ## Linux Ramdump Parser for Windows ##
 
 #### Require: ####
-[Python / Cygwin](https://cygwin.com/)
-[Android NDKi for Windows](http://developer.android.com/ndk/index.html)
+
+
+- [Python / Cygwin](https://cygwin.com/)
+- [Android NDK for Windows](http://developer.android.com/ndk/index.html)
 
 #### Useage: ####
 	git clone https://github.com/kiddlu/ramparser.git /usr/lib/ramparser
