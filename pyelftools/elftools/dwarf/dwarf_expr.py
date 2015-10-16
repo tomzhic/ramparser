@@ -122,7 +122,7 @@ class GenericExprVisitor(object):
             # Get the next opcode from the stream. If nothing is left in the
             # stream, we're done.
             byte = self.stream.read(1)
-            if not byte:
+            if len(byte) == 0:
                 break
 
             # Decode the opcode and its name

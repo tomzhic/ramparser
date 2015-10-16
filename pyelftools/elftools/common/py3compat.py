@@ -15,9 +15,6 @@ if PY3:
     StringIO = io.StringIO
     BytesIO = io.BytesIO
 
-    import collections
-    OrderedDict = collections.OrderedDict
-
     _iterkeys = "keys"
     _iteritems = "items"
     _itervalues = "values"
@@ -28,11 +25,11 @@ if PY3:
     def byte2int(b): return b
 
     ifilter = filter
+
+    maxint = sys.maxsize
 else:
     import cStringIO
     StringIO = BytesIO = cStringIO.StringIO
-
-    from .ordereddict import OrderedDict
 
     _iterkeys = "iterkeys"
     _iteritems = "iteritems"
@@ -44,6 +41,8 @@ else:
     byte2int = ord
 
     from itertools import ifilter
+
+    maxint = sys.maxint
 
 
 def iterkeys(d):
