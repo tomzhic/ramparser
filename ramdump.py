@@ -697,11 +697,11 @@ class RamDump():
 
         t32_host_system = self.t32_host_system or platform.system()
 
-        launch_config = open(out_path + '/t32_config.t32', 'wb')
+        launch_config = open('./t32_config.t32', 'wb')
         launch_config.write('OS=\n')
         launch_config.write('ID=T32_1000002\n')
         if t32_host_system != 'Linux':
-            launch_config.write('TMP=C:\\TEMP\n')
+            launch_config.write('TMP=C:\\T32\\pdf\n')
             launch_config.write('SYS=C:\\T32\n')
             launch_config.write('HELP=C:\\T32\\pdf\n')
         else:
@@ -710,9 +710,10 @@ class RamDump():
             launch_config.write('HELP=/opt/t32/pdf\n')
         launch_config.write('\n')
         launch_config.write('PBI=SIM\n')
-        launch_config.write('SCREEN=\n')
-        launch_config.write('FONT=SMALL\n')
-        launch_config.write('HEADER=Trace32-ScorpionSimulator\n')
+        #launch_config.write('SCREEN=\n')
+        #launch_config.write('FONT=SMALL\n')
+        #launch_config.write('HEADER=Trace32-ScorpionSimulator\n')
+        launch_config.write('\n')
         launch_config.write('PRINTER=WINDOWS\n')
         launch_config.write('\n')
         launch_config.write('RCL=NETASSIST\n')
@@ -722,9 +723,9 @@ class RamDump():
 
         launch_config.close()
 
-        startup_script = open(out_path + '/t32_startup_script.cmm', 'wb')
+        startup_script = open('./t32_startup_script.cmm', 'wb')
 
-        startup_script.write(('title \"' + out_path + '\"\n').encode('ascii', 'ignore'))
+        startup_script.write(('title \"' + 'Linux Ramdump Parser' + '\"\n').encode('ascii', 'ignore'))
 
         is_cortex_a53 = self.hw_id == 8916 or self.hw_id == 8939 or self.hw_id == 8936
 
@@ -735,9 +736,9 @@ class RamDump():
         startup_script.write('sys.up\n'.encode('ascii', 'ignore'))
 
         for ram in self.ebi_files:
-            ebi_path = os.path.abspath(ram[3])
+            #ebi_path = os.path.abspath(ram[3])
             startup_script.write('data.load.binary {0} 0x{1:x}\n'.format(
-                ebi_path, ram[1]).encode('ascii', 'ignore'))
+                ram[3], ram[1]).encode('ascii', 'ignore'))
         if self.arm64:
             startup_script.write('Register.Set NS 1\n'.encode('ascii', 'ignore'))
 
@@ -773,7 +774,7 @@ class RamDump():
             startup_script.write('mmu.on\n'.encode('ascii', 'ignore'))
             startup_script.write('mmu.scan\n'.encode('ascii', 'ignore'))
         startup_script.write(
-            ('data.load.elf ' + os.path.abspath(self.vmlinux) + ' /nocode\n').encode('ascii', 'ignore'))
+            ('data.load.elf ./vmlinux /nocode\n').encode('ascii', 'ignore'))
 
         if t32_host_system != 'Linux':
             if self.arm64:
@@ -810,15 +811,19 @@ class RamDump():
         startup_script.close()
 
         if t32_host_system != 'Linux':
-            t32_bat = open(out_path + '/launch_t32.bat', 'wb')
+            t32_bat = open('./launch_t32.bat', 'wb')
             if self.arm64:
                 t32_binary = 'C:\\T32\\bin\\windows64\\t32MARM64.exe'
             elif is_cortex_a53:
                 t32_binary = 'C:\\T32\\bin\\windows64\\t32MARM.exe'
             else:
                 t32_binary = 'c:\\t32\\t32MARM.exe'
-            t32_bat.write(('start '+ t32_binary + ' -c ' + out_path + '/t32_config.t32, ' +
-                          out_path + '/t32_startup_script.cmm').encode('ascii', 'ignore'))
+            t32_bat.write(('@echo OFF\n'))
+            t32_bat.write(('set curr_path=%~dp0\n'))
+            t32_bat.write(('pushd %curr_path%\n'))
+            t32_bat.write(('start '+ t32_binary + ' -c ' + 't32_config.t32, ' +
+                          't32_startup_script.cmm &\n').encode('ascii', 'ignore'))
+            t32_bat.write(('popd\n'))
         else:
             t32_bat = open(out_path + '/launch_t32.sh', 'wb')
             if self.arm64:
