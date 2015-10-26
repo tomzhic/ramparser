@@ -7,9 +7,8 @@
 - [Android NDK for Windows](http://developer.android.com/ndk/index.html)
 
 #### Useage: ####
-	git clone https://github.com/kiddlu/ramparser.git /usr/lib/ramparser
-	python /usr/lib/ramparser/pyelftools/setup.py install
-	ln -s /usr/lib/ramparser/ramparser.sh /usr/bin/ramparser
+	git clone https://github.com/kiddlu/ramparser.git /cygdrive/d/Android/ramparser
+	ln -s /cygdrive/d/Android/ramparser/ramparser.sh /usr/bin/ramparser
 
 	cd /ramdump_vmlinux_dir/
 	ramparser
