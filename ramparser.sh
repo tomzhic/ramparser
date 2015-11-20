@@ -1,6 +1,7 @@
 #!/bin/sh
 
-base_path=$(cd `dirname $(readlink $0)`; pwd)
+#ramparse_path=$(cd `dirname $(readlink $0)`; pwd)
+ramparse_path=/cygdrive/d/Android/ramparser/
 ndk_path=/cygdrive/d/Android/ndk/android-ndk-r10e/
 
 if [ ! -e vmlinux ]
@@ -14,7 +15,7 @@ rm -rf ap-log
 mkdir ap-log
 
 #ap
-python $base_path/./ramparse.py \
+python $ramparse_path/ramparse.py \
 	--nm-path $ndk_path/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/bin/aarch64-linux-android-nm \
 	--gdb-path $ndk_path/toolchains/aarch64-linux-android-4.9/prebuilt/windows-x86_64/bin/aarch64-linux-android-gdb \
 	--vmlinux ./vmlinux \
