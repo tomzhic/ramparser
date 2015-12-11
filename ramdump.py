@@ -784,9 +784,9 @@ class RamDump():
                      'menu.reprogram C:\\T32\\demo\\arm64\\kernel\\linux\\linux-3.x\\linux.men\n'.encode('ascii', 'ignore'))
             else:
                 startup_script.write(
-                    'task.config C:\\T32\\demo\\arm\\kernel\\linux\\linux-3.x\\linux3.t32\\n'.encode('ascii', 'ignore'))
+                    'task.config C:\\T32\\demo\\arm\\kernel\\linux\\linux-3.x\\linux3.t32\n'.encode('ascii', 'ignore'))
                 startup_script.write(
-                    'menu.reprogram C:\\T32\\demo\\arm\\kernel\\linux\\linux-3.x\\linux.men\\n'.encode('ascii', 'ignore'))
+                    'menu.reprogram C:\\T32\\demo\\arm\\kernel\\linux\\linux-3.x\\linux.men\n'.encode('ascii', 'ignore'))
         else:
             if self.arm64:
                 startup_script.write(
